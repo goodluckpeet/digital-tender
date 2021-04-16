@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h3 class="text-center mb-3">List of companies that submitted bids for <b class="text-capitalize text-success">{{object.title}}</b> </h3>
+
+
+{% for company in object.bids.all %}
+<div class="card shadow mb-2">
+  <div class="card-body">
+    <h5 class="card-title text-center text-capitalize">{{company.company}}</h5>
+    <p class="card-text text-capitalize">
+      <b>Desciption: </b>{{company.company}}
+    </p>
+    <p class="card-text">
+      <b>Date of Registration: </b> {{company.company.registration_date}}
+    </p>
+    <div class="row mx-auto">
+        <div class="col-sm d-flex justify-content-center">
+            <a href="{% url 'company_detail' company.company.id %}" role="button" class="btn btn-sm btn-dark">View Details</a>
+        </div>
+    </div>
+  </div>
+</div>
+ 
+{% empty %}
+    <h5 class="text-center mt-2">No companies</h5>
+{% endfor %}
+
+
+  <div class="mt-3 pagination justify-content-center">
+      <nav aria-label="...">
+        <ul class="pagination shadow">
+          {% if page_obj.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+
+              <!-- PREVIOUS  -->
+              <li class="page-item">
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+              </li>
+              
+          {% endif %}
+
+
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+          {% endif %}
+          
+        </ul>
+        <div class="d-flex justify-content-center">
+          <small class="text-muted">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </small>
+        </div>
+    </nav>
+  </div>
+
+{% endblock body %}

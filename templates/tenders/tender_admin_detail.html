@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h3 class="text-center mb-3">Tender Detail (Admin View)</h3>
+
+<div class="card shadow mb-2">
+  <div class="card-body">
+    <h5 class="card-title text-center text-capitalize">{{tender.company}}</h5>
+    <p class="card-text text-capitalize">
+      <b>Desciption: </b>{{tender.description}}
+    </p>
+    <p class="card-text text-capitalize">
+      <b>Documents: </b><a href="{{tender.documents.url}}">{{tender.documents}}</a>
+    </p>
+    <p class="card-text text-capitalize">
+      <small class="text-muted"><b>Bids: </b>{{tender.bids.count}}</small>
+    </p>
+    <p class="card-text text-capitalize">
+      <small class="text-muted"><b>Closing Date: </b>{{tender.closing_date}}</small>
+    </p>
+  </div>
+</div>
+
+<hr>
+
+<h3 class="text-center mb-3">Submitted Bids</h3>
+    
+    {% for bid in tender.bids.all %}
+    <div class="card shadow mb-2">
+        <div class="card-body">
+          <p class="card-text">
+            <b>Company: </b>{{bid.company}}
+          </p>
+          <p class="card-text">
+            <b>Documents: </b> <a href="{{bid.documents.url}}">{{bid.documents}}</a>
+          </p>
+          <p class="card-text">
+            <small class="text-muted"><b>Submitted On: </b>{{bid.submit_date}}</small>
+          </p>
+				</div>
+				<div class="card-footer">
+					<div class="row mx-auto">
+							<div class="col-sm d-flex justify-content-center">
+									<a href="{% url 'bid_admin_detail' bid.id %}" role="button" class="btn  btn-dark">Review</a>
+							</div>
+					</div>
+			</div>
+		</div>
+    {% empty %}
+    <h5 class="text-center mt-2">No Bids Submitted Yet</h5>
+    {% endfor %}
+
+{% endblock body %}
